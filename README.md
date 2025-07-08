@@ -1,17 +1,24 @@
- Dog vs Cat Image Classifier (CNN with Keras)
+# Dog vs Cat Image Classifier (CNN with Keras)
 
 This project is a Convolutional Neural Network (CNN) built using Keras to classify images of cats and dogs. It is inspired by the classic Kaggle dataset challenge.
 
- 🔍 Project Overview
+## 🔍 Project Overview
 
 - **Goal**: Classify input images as either a dog or a cat.
 - **Framework**: Keras with TensorFlow backend.
 - **Platform**: Developed and trained on Google Colab.
 
- 🧠 Model Architecture
+## ⚠ Resource Limitations
+
+Due to **RAM**, **GPU**, and **storage constraints** in Google Colab:
+
+- We only used **1,000 cat** and **1,000 dog** images for training.
+- We used **data generators** (`ImageDataGenerator`) to batch the data into **20-image chunks** during training, preventing RAM overload.
+
+## 🧠 Model Architecture
 
 - 4 convolutional layers with max-pooling
-- Dropout layer to prevent overfitting
+- Dropout layer (optional) to prevent overfitting
 - Dense output layer with sigmoid activation
 - Optimizer: RMSprop
 - Loss function: Binary Crossentropy
@@ -27,33 +34,27 @@ model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(128, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Flatten())
-model.add(layers.Dropout(0.5))
+model.add(layers.Dropout(0.5))  # Only for dropout variant
 model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 ```
 
- 🖼 Dataset Details
+## 🖼 Dataset Details
 
-Due to Google Colab limitations (RAM, disk size, GPU quota), only a **subset** of the dataset was used:
+- **Training Set**: 1000 cat + 1000 dog images
+- **Validation Set**: 1000 cat + 1000 dog images
+- **Test Set**: 1000 mixed unlabeled images
 
-- **Training Set**:
-  - 1000 cat images
-  - 1000 dog images
+## ⚙ Training Comparison
 
-- **Validation Set**:
-  - 1000 cat images
-  - 1000 dog images (next 1000 from dataset)
+| Model Variant     | Epochs | Train Accuracy | Val Accuracy | Train Loss | Val Loss |
+|------------------|--------|----------------|--------------|------------|----------|
+| Without Dropout  | 30     | 0.9897         | 0.7425       | 0.0579     | 0.8293   |
+| With Dropout     | 100    | 0.9937         | 0.7785       | 0.0199     | 1.0745   |
 
-- **Test Set**:
-  - 1000 mixed images (no labels used)
+💡 **Observation**: Dropout helped increase validation accuracy and reduced overfitting, though the validation loss increased slightly.
 
- 🧪 Evaluation
-
-Validation accuracy reached ~88% while monitoring overfitting using dropout and augmentation.
-
-Accuracy and loss plots were generated to analyze training behavior.
-
- 📁 Folder Structure
+## 📁 Folder Structure
 
 ```
 base_dir/
@@ -66,30 +67,30 @@ base_dir/
 └── test/
 ```
 
- 💾 Model Saving
+## 💾 Model Saving
 
 The final trained model is saved in Keras `.keras` format:
 ```python
 model.save("cats_and_dogs_small_1.keras")
 ```
 
- ☁ GitHub LFS
+## ☁ GitHub LFS
 
-Because the `.keras` model is over 25MB, it is uploaded using **Git Large File Storage (Git LFS)**. Make sure you have Git LFS installed to clone this repository.
+The `.keras` model is tracked using **Git Large File Storage (Git LFS)** due to its size exceeding GitHub’s 25MB limit.
 
- 📦 Requirements
+## 📦 Requirements
 
 - Python 3.x
 - TensorFlow / Keras
 - Matplotlib
-- Git LFS (for handling large model files)
+- Git LFS
 
- 📈 Future Work
+## 📈 Future Work
 
-- Scale to full dataset
-- Try different architectures (ResNet, VGG)
-- Apply transfer learning
+- Train on full dataset
+- Introduce transfer learning (e.g., VGG, ResNet)
+- Export model to TFLite for mobile deployment
 
- 📬 Contact
+## 📬 Contact
 
 For any feedback or questions, feel free to reach out via GitHub Issues.
